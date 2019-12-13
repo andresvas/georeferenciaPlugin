@@ -1,0 +1,24 @@
+{
+  "name": "com.todo1.plugins.GeorefPlugin",
+  "version": "1.0.0",
+  "description": "Geo",
+  "cordova": {
+    "id": "com.todo1.plugins.GeorefPlugin",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/todo1services/cordova-plugin-geolocation.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "Todo1",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/todo1services/cordova-plugin-geolocation#readme"
+}

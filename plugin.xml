@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="com.todo1.plugins.GeorefPlugin" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0">
+    <name>GeorefPlugin</name>
+    <js-module name="GeorefPlugin" src="www/GeorefPlugin.js">
+        <clobbers target="cordova.plugins.GeorefPlugin"/>
+    </js-module>
+    <preference name="GMAPS_API_KEY" default="AIzaSyAClh9YC9PcCEBs7eUdg6OAraDsNB4_wNc"/>
+    <platform name="android">
+        <!--<preference name="ENVIRONMENT" default="qa"/>-->
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="GeorefPlugin">
+                <param name="android-package" value="com.todo1.plugins.GeorefPlugin"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <meta-data android:name="com.google.android.geo.API_KEY" android:value="$GMAPS_API_KEY"/>
+            <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+        </config-file>
+        <source-file src="src/android/GeorefPlugin.java" target-dir="src/com/todo1/plugins"/>
+
+        <hook type="before_prepare" src="hooks/add_config_geolocation.js" />
+        <source-file src="src/android/stylebar.xml" target-dir="res/values" />
+        <source-file src="src/android/network_security.xml" target-dir="res/xml" />
+        <resource-file src="src/android/libs" target="libs" />
+        <framework custom="true" src="src/android/georef.gradle" type="gradleReference"/>
+    </platform>
+
+    <platform name="ios">
+        <hook type="before_plugin_install" src="hooks/install_prerequisites.js" />
+        <hook type="before_plugin_install" src="hooks/unzip_google_service_config.js" />
+        <hook type="before_plugin_install" src="hooks/copy_google_service_config.js" />
+
+        <config-file parent="/*" target="config.xml">
+            <feature name="GeorefPlugin">
+                <param name="ios-package" value="GeorefPlugin"/>
+            </feature>
+            <preference name="GMAPS_API_KEY" value="$GMAPS_API_KEY"/>
+        </config-file>
+        <source-file src="src/ios/GeorefPlugin.m"/>
+        <header-file src="src/ios/GeorefPlugin.h"/>
+        <framework src="Georeferenciacion" type="podspec" spec=":git => 'https://t1gituser:3xTr%40C%40r3@bitbucket.org/todo1services/podspec-Georef.git', :commit => '422895c55c8ef08ee9507c891ae85f51e01f8730'"/>
+
+        <hook type="after_plugin_install" src="hooks/ios_build_config.js"/>
+        <!--
+        Depends on the resource to be uploaded to "google-services" folder inside Service Studio.
+        copyGoogleServiceConfig hook is in charge to copy from the source directory to the root of the plugin folder.
+        -->
+        <resource-file src="GoogleService-Info.plist" target="./GoogleService-Info.plist" />
+
+        <preference name="LOCATION_WHEN_USAGE_DESCRIPTION" default="Se solicita la activación de GPS para brindar a nuestros clientes la ubicación más cercana  de nuestra red de sucursales y cajeros automáticos."/>
+        <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
+            <string>$LOCATION_WHEN_USAGE_DESCRIPTION</string>
+        </config-file>
+
+        <preference name="LOCATION_ALWAYS_AND_WHEN_USAGE_DESCRIPTION" default="Se solicita la activación de GPS para brindar a nuestros clientes la ubicación más cercana  de nuestra red de sucursales y cajeros automáticos."/>
+        <config-file target="*-Info.plist" parent="NSLocationAlwaysAndWhenInUseUsageDescription">
+            <string>$LOCATION_ALWAYS_AND_WHEN_USAGE_DESCRIPTION</string>
+        </config-file>
+
+    </platform>
+</plugin>
