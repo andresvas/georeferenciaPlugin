@@ -58,7 +58,5 @@
             <string>$LOCATION_ALWAYS_AND_WHEN_USAGE_DESCRIPTION</string>
         </config-file>
 
-        <hook type="before_prepare" src="hooks/install_plugin_google_analytic.js" />
-
     </platform>
 </plugin>
